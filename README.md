@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Keeper
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Keeper is a small note-taking app inspired by Google Keep, built with React. You type a title and some text, press the add button, and the note shows up as a card on the page. Each card has a delete button to remove it.
 
-## Available Scripts
+It is a front-end-only project: there is no backend or database, and notes live in React state. Refreshing the page clears them.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Create notes** with a title and content. The input area starts as a single "Create new note..." field and expands into a full form when you click it.
+- **Validation on submit**: a note is only added when both the title and the content are filled in.
+- **Delete notes** with the trash icon on each card.
+- **Material UI icons and animations** (`@material-ui/core` and `@material-ui/icons`) for the add button, delete button and header icon.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- [React 17](https://reactjs.org/) with function components and hooks (`useState`)
+- [Material UI v4](https://v4.mui.com/) (`@material-ui/core`, `@material-ui/icons`)
+- [Create React App](https://create-react-app.dev/) (`react-scripts` 5) for the dev server, build and tests
+- Jest and React Testing Library for testing
 
-### `npm test`
+## Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [Node.js](https://nodejs.org/) 14 or newer (the project builds on current LTS releases)
+- npm (bundled with Node.js)
 
-### `npm run build`
+## Getting started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone https://github.com/nkelava/keeper.git
+cd keeper
+npm install
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The development server opens the app at [http://localhost:3000](http://localhost:3000) and reloads when you edit files.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Available scripts
 
-### `npm run eject`
+| Command         | What it does                                                                 |
+| --------------- | ---------------------------------------------------------------------------- |
+| `npm start`     | Runs the app in development mode on port 3000.                               |
+| `npm run build` | Creates an optimized production build in the `build/` folder.                |
+| `npm test`      | Runs Jest in interactive watch mode.                                         |
+| `npm run eject` | Copies the Create React App config into the project. This is irreversible.   |
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The production build is a static site, so `build/` can be served by any static host, for example with `npx serve -s build`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> **Note:** `src/components/App.test.js` is still the default Create React App test that looks for a "learn react" link, so `npm test` currently fails. It needs to be rewritten to match the Keeper UI.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Project structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```text
+keeper/
+├── public/
+│   ├── index.html            # HTML shell with the #root mount point
+│   └── robots.txt
+├── src/
+│   ├── index.js              # Entry point; renders <App /> into #root
+│   ├── index.css             # Global base styles
+│   ├── reportWebVitals.js    # Optional performance reporting (CRA default)
+│   ├── setupTests.js         # Loads jest-dom matchers for tests
+│   └── components/
+│       ├── App.js            # Root component; holds the notes array and add/delete handlers
+│       ├── App.css
+│       ├── App.test.js       # Placeholder test (see note above)
+│       ├── Header/           # App title bar with icon
+│       ├── CreateArea/       # Expanding form for writing a new note
+│       ├── NoteList/         # Maps the notes array to Note components
+│       ├── Note/             # Single note card with delete button
+│       └── Footer/           # Copyright line with the current year
+├── package.json
+└── package-lock.json
+```
 
-## Learn More
+## How it works
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`App` owns a single piece of state, an array of `{ title, content }` objects. It passes `onAddNote` down to `CreateArea` and `onDeleteNote` down through `NoteList` to each `Note`. Notes are identified by their position in the array, so deleting a note filters it out by index.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Configuration
 
-### Code Splitting
+The app does not read any environment variables or config files. Create React App's standard options (such as `PORT=4000 npm start`) still apply if you need to change the dev server's behaviour.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Contributing
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Issues and pull requests are welcome. Useful next steps for the project include persisting notes (for example in `localStorage` or a backend), editing existing notes, and replacing the placeholder test.
